@@ -1,2 +1,19 @@
-# nfc_tool_share_key
-NFC key sharing, used to crack access cards
+# nfc tool share key
+##  nfc门禁破解共享密钥，免vip使用联动密钥破解加密门禁卡
+
+本项目将不定期更新密钥~~~~
+
+
+## 使用方式
+1.  下载密钥txt文件到手机目录
+2.  安装nfc_tool.apk
+3.  打开app -> 一键读写-> 点击使用联动密钥按钮-> 点击加载-> 选择密钥txt文件-> 点击确定-> 开始读卡-> 等待破解完成
+
+其他模拟门禁过程参考官方文档
+
+#### 下载文件建议每8000个密钥一个文件，避免文件过大，加载密钥导致软件崩溃。
+#### 分割文件代码可以参考 spliteKey.js,  在node.js 环境下使用
+
+
+
+工具下载地址：https://nfctool.cn/download
