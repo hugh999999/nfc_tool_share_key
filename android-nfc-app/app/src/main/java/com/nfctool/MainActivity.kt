@@ -38,6 +38,8 @@ class MainActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
 
     // 当前扫描的卡片UID和最后一次检测到的Tag（用于卡片重连）
     private var currentCardUid: String? = null
+    private var currentCardType: String? = null
+    private var currentSectorCount: Int = 0
     private var lastTag: Tag? = null
 
     // 震动和声音
@@ -68,12 +70,6 @@ class MainActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
 
     // 已测试的密钥块索引（用于断点续扫）
     private val testedChunkIndex = AtomicInteger(0)
-
-    data class SectorKey(
-        val sector: Int,
-        var keyA: String? = null,
-        var keyB: String? = null
-    )
 
     // 卡片丢失检测
     private val cardCheckHandler = Handler(Looper.getMainLooper())
@@ -168,6 +164,10 @@ class MainActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
                 binding.btnStartScan.text = "等待刷卡..."
                 appendLog("请将M1卡靠近手机背面...")
             }
+        }
+
+        binding.btnRecords.setOnClickListener {
+            startActivity(android.content.Intent(this, RecordsActivity::class.java))
         }
 
         binding.btnClearLog.setOnClickListener {
@@ -432,11 +432,13 @@ class MainActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
         playDetectionFeedback()
         isWaitingForCard.set(false)
         currentCardUid = uid
+        currentCardType = getMifareType(mifareClassic.type)
+        currentSectorCount = mifareClassic.sectorCount
 
         appendLog("══════════════════════════════")
         appendLog("检测到M1卡: $uid")
-        appendLog("类型: ${getMifareType(mifareClassic.type)}")
-        appendLog("扇区数: ${mifareClassic.sectorCount}")
+        appendLog("类型: $currentCardType")
+        appendLog("扇区数: $currentSectorCount")
         appendLog("总块数: ${mifareClassic.blockCount}")
 
         // 检查是否有保存的进度
@@ -461,9 +463,22 @@ class MainActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
         isScanning.set(false)
         cardCheckHandler.removeCallbacks(cardCheckRunnable)
 
+        // 保存未完成的卡片记录
+        currentCardUid?.let { uid ->
+            currentCardType?.let { cardType ->
+                CardRecordManager.saveCardRecord(
+                    this,
+                    uid,
+                    cardType,
+                    currentSectorCount,
+                    foundKeys.toMap()
+                )
+            }
+        }
+
         runOnUiThread {
             playErrorFeedback()
-            appendLog("⚠️ 卡片已离开，扫描暂停")
+            appendLog("卡片已离开，扫描暂停")
             appendLog("请重新靠近卡片继续扫描")
 
             // 保存当前进度，从当前块继续
@@ -704,13 +719,23 @@ class MainActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
                     // 卡片断开，调用 onCardLost 更新 UI
                     onCardLost()
                 } else {
-                    // 正常扫描完成
+                    // 正常扫描完成，保存卡片记录
+                    val cardType = getMifareType(mifareClassic.type)
+                    CardRecordManager.saveCardRecord(
+                        this@MainActivity,
+                        uid,
+                        cardType,
+                        sectorCount,
+                        foundKeys.toMap()
+                    )
+
                     val totalTime = (System.currentTimeMillis() - startTime) / 1000
                     runOnUiThread {
                         appendLog("══════════════════════════════")
                         appendLog("扫描完成!")
                         appendLog("共找到 ${foundKeys.count { it.value.keyA != null || it.value.keyB != null }} 个扇区密钥")
                         appendLog("耗时: ${totalTime}秒")
+                        appendLog("记录已保存")
                         binding.btnStartScan.text = "开始扫描"
                         binding.btnStartScan.isEnabled = true
                         binding.progressBar.progress = 100
@@ -806,6 +831,17 @@ class MainActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
         // 保存进度
         currentCardUid?.let { uid ->
             saveProgress(uid, foundKeys, testedChunkIndex.get())
+
+            // 保存未完成的卡片记录
+            currentCardType?.let { cardType ->
+                CardRecordManager.saveCardRecord(
+                    this,
+                    uid,
+                    cardType,
+                    currentSectorCount,
+                    foundKeys.toMap()
+                )
+            }
         }
 
         binding.btnStartScan.text = "开始扫描"

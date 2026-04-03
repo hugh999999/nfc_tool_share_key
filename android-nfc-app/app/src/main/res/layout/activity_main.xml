@@ -79,7 +79,19 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="开始扫描"
-            android:layout_marginEnd="8dp"/>
+            android:minWidth="100dp"
+            android:layout_marginEnd="4dp"/>
+
+        <Button
+            android:id="@+id/btnRecords"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="记录管理"
+            android:minWidth="100dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
 
         <Button
             android:id="@+id/btnClearLog"
@@ -87,6 +99,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="清空日志"
+            android:minWidth="100dp"
+            android:layout_marginStart="4dp"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
     </LinearLayout>
 
