@@ -28,12 +28,8 @@ jobs:
         with:
           gradle-version: '8.6'
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x android-nfc-app/gradlew
-
       - name: Build Release APK
-        working-directory: android-nfc-app
-        run: ./gradlew assembleRelease --no-daemon
+        run: gradle -p android-nfc-app assembleRelease --no-daemon
 
       - name: Verify APK output
         run: ls -lah android-nfc-app/app/build/outputs/apk/release
