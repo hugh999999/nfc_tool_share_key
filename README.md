@@ -31,7 +31,7 @@
 - 实时显示扫描进度和速度
 
 #### 安装步骤
-1. 下载 `android-nfc-app/app/build/outputs/apk/` 目录下的 APK 文件
+1. 打开 [Releases](https://github.com/hugh999999/nfc_tool_share_key/releases/latest) 下载最新 APK（`Assets` 区）
 2. 安装到支持 NFC 的 Android 手机（需 Android 6.0+）
 3. 确保 NFC 功能已开启
 
@@ -107,4 +107,6 @@ NFC M1 卡片密钥记录
 
 ---
 
-工具下载地址：https://nfctool.cn/download
+Android 扫描 APP 下载地址（Releases）：https://github.com/hugh999999/nfc_tool_share_key/releases/latest
+
+
