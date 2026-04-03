@@ -1,0 +1,26 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+.idea/
+.DS_Store
+.gradle/
+.gradle-jvm-wrapper/
+.gradle-wrapper/
+.gradle-wrapper.jar
+.gradlew
+.gradlew.bat
+.idea/
+.settings/
+.project
+.classpath
+build/
+out/
+*.iml
+*.iws
+*.ipr
+*.log
+*.class
+*.jar
+*.war
+*.ear
+.claude
