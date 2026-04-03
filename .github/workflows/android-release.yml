@@ -4,7 +4,10 @@ on:
   push:
     tags:
       - 'v*'
-  workflow_dispatch:  # 允许手动触发
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -25,10 +28,6 @@ jobs:
         with:
           gradle-version: '8.6'
 
-      - name: Generate Gradle Wrapper
-        working-directory: android-nfc-app
-        run: gradle wrapper --gradle-version 8.6
-
       - name: Grant execute permission for gradlew
         run: chmod +x android-nfc-app/gradlew
 
@@ -36,8 +35,17 @@ jobs:
         working-directory: android-nfc-app
         run: ./gradlew assembleRelease --no-daemon
 
+      - name: Verify APK output
+        run: ls -lah android-nfc-app/app/build/outputs/apk/release
+
       - name: Upload Release APK
         uses: actions/upload-artifact@v4
         with:
           name: release-apk
           path: android-nfc-app/app/build/outputs/apk/release/*.apk
+
+      - name: Publish APK to GitHub Releases
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: android-nfc-app/app/build/outputs/apk/release/*.apk
