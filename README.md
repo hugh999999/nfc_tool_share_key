@@ -1,8 +1,8 @@
 # nfc tool share key
-##  nfc门禁破解共享密钥，免vip使用联动密钥破解加密门禁卡
+
+## nfc门禁共享密钥，扫描加密门禁卡密钥工具
 
 本项目将不定期更新密钥~~~~
-
 
 ## 使用方式
 
@@ -11,6 +11,7 @@
 本项目提供了一个独立的 Android 应用，内置密钥库，无需下载额外文件，支持自动扫描 M1 卡密钥。
 
 #### 功能特点
+
 - 内置密钥库，开箱即用
 - 自动扫描 Mifare Classic 1K/4K 卡片密钥
 - 支持断点续扫（卡片离开后可继续扫描）
@@ -19,11 +20,13 @@
 - 实时显示扫描进度和速度
 
 #### 安装步骤
+
 1. 打开 [Releases](https://github.com/hugh999999/nfc_tool_share_key/releases/latest) 下载最新 APK（`Assets` 区）
 2. 安装到支持 NFC 的 Android 手机（需 Android 6.0+）
 3. 确保 NFC 功能已开启
 
 #### 使用方法
+
 1. **开始扫描**
    - 打开 APP，点击「开始扫描」按钮
    - 将 M1 卡片靠近手机背面 NFC 区域
@@ -56,6 +59,7 @@
 #### 导出格式说明
 
 **JSON 格式示例：**
+
 ```json
 {
   "uid": "A1B2C3D4",
@@ -70,6 +74,7 @@
 ```
 
 **文本格式示例：**
+
 ```
 ═══════════════════════════════════════
 NFC M1 卡片密钥记录
@@ -104,6 +109,7 @@ Android 扫描 APP 下载地址（Releases）：https://github.com/hugh999999/nf
 本项目提供微信小程序版本，无需安装 APP，微信扫码即可使用。
 
 #### 功能特点
+
 - 无需安装，微信扫码即用
 - 内置密钥库，自动加载
 - 支持扫描 Mifare Classic 1K/4K 卡片
@@ -131,12 +137,15 @@ Android 扫描 APP 下载地址（Releases）：https://github.com/hugh999999/nf
    - 选择导出格式：JSON / 文本 / MFD
 
 #### 注意事项
+
 - 仅支持 Android 设备（iOS 不支持 NFC Reader 模式）
 - 需要手机支持 NFC 功能并已开启
 - 需要微信版本支持 NFC API
 
 #### 重要提示
+
 **暂停扫描的正确操作**：
+
 1. 先点击「扫描中...」按钮停止扫描
 2. 再将 M1 卡片离开手机
 
@@ -145,6 +154,7 @@ Android 扫描 APP 下载地址（Releases）：https://github.com/hugh999999/nf
 ---
 
 ### 方式三：使用官方 NFC Tool APP
+
 1.  下载密钥txt文件到手机目录
 2.  安装nfc_tool.apk
 3.  打开app -> 一键读写-> 点击使用联动密钥按钮-> 点击加载-> 选择密钥txt文件-> 点击确定-> 开始读卡-> 等待破解完成
@@ -152,6 +162,9 @@ Android 扫描 APP 下载地址（Releases）：https://github.com/hugh999999/nf
 其他模拟门禁过程参考官方文档
 
 #### 下载文件建议每8000个密钥一个文件，避免文件过大，加载密钥导致软件崩溃。
-#### 分割文件代码可以参考 spliteKey.js,  在node.js 环境下使用
 
+#### 分割文件代码可以参考 spliteKey.js, 在node.js 环境下使用
 
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/hugh999999/nfc_tool_share_key.svg?variant=adaptive)](https://starchart.cc/hugh999999/nfc_tool_share_key)
